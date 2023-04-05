@@ -116,17 +116,17 @@ class SitemapDataHandler extends BaseObject
         $builder->start();
 
         foreach ($models as $model) {
-            $languages = (array)(isset($model->sitemapLanguages) ? $model->sitemapLanguages : Yii::$app->language);
+            $languages = (array)(isset($model->sitemapLanguages) ? $model->sitemapLanguages : [Yii::$app->language => Yii::$app->language]);
 
             if (count($languages) > 1) {
                 // Handle separately for each language
-                foreach ($languages as $language) {
+                foreach ($languages as $lang => $langCode) {
                     // Swith App language to $language
                     if (isset($model->sitemapSwithLanguages) && $model->sitemapSwithLanguages) {
                         static::setLanguage($language);
                     }
 
-                    $this->handleModel($model, $language);
+                    $this->handleModel($model, $lang);
 
                     // Restore App language
                     static::restoreLanguage();
