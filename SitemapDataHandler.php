@@ -123,7 +123,7 @@ class SitemapDataHandler extends BaseObject
                 foreach ($languages as $lang => $langCode) {
                     // Swith App language to $language
                     if (isset($model->sitemapSwithLanguages) && $model->sitemapSwithLanguages) {
-                        static::setLanguage($language);
+                        static::setLanguage($langCode);
                     }
 
                     $this->handleModel($model, $lang);
