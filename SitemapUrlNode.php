@@ -1,9 +1,9 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Ivan Orlov
- * @license   https://github.com/demisang/yii2-sitemap-generator/blob/master/LICENSE
- * @link      https://github.com/demisang/yii2-sitemap-generator#readme
- * @author    Ivan Orlov <gnasimed@gmail.com>
+ * @copyright Copyright (c) 2023 Leo Cheung
+ * @license   https://github.com/iamleocheung/yii2-sitemap-generator/blob/master/LICENSE
+ * @link      https://github.com/iamleocheung/yii2-sitemap-generator#readme
+ * @author    Leo Cheung <hello@leocheu.ng>
  */
 
 namespace demi\sitemap;
@@ -17,7 +17,8 @@ class SitemapUrlNode extends BaseObject
     public $lastmod;
     public $changefreq;
     public $priority;
-    public $images = [];
+    public $images = [];;
+    public $videos = [];
     public $alternateLinks = [];
 
     public function __construct($config = [])
@@ -74,6 +75,24 @@ class SitemapUrlNode extends BaseObject
             }
 
             $url[] = "\t</image:image>";
+        }
+        
+        // Google videos data
+        foreach ($this->videos as $video) {
+            $url[] = "\t<video:video>";
+            $url[] = "\t\t<video:player_loc>" . static::prepareUrl($video['player_loc']) . '</video:player_loc>';
+        
+            if ($image['thumbnail_loc'] !== null) {
+                $url[] = "\t\t<video:thumbnail_loc>" . $image['thumbnail_loc'] . '</video:thumbnail_loc>';
+            }
+            if ($image['title'] !== null) {
+                $url[] = "\t\t<video:title>" . $image['title'] . '</video:title>';
+            }
+            if ($image['description'] !== null) {
+                $url[] = "\t\t<video:description>" . $image['description'] . '</video:description>';
+            }
+        
+            $url[] = "\t</video:video>";
         }
 
         // Google alternate hreflang data
@@ -155,12 +174,40 @@ class SitemapUrlNode extends BaseObject
      *
      * @return $this
      */
+    public function addImage($player_loc, $thumbnail_loc = null, $title = null, $description = null)
+    {
+        if (empty($player_loc)) {
+            return $this;
+        }
+
+        $image = [
+            'player_loc' => $player_loc,
+            'thumbnail_loc' => $thumbnail_loc,
+            'title' => $title,
+            'description' => $description,
+        ];
+        $this->images[] = $image;
+
+        return $this;
+    }
+    
+    /**
+     * Add video to [[videos]] set
+     *
+     * @param string $loc
+     * @param string|null $geoLocation
+     * @param string|null $caption
+     * @param string|null $title
+     * @param string|null $license
+     *
+     * @return $this
+     */
     public function addImage($loc, $geoLocation = null, $caption = null, $title = null, $license = null)
     {
         if (empty($loc)) {
             return $this;
         }
-
+    
         $image = [
             'loc' => $loc,
             'geoLocation' => $geoLocation,
@@ -169,7 +216,7 @@ class SitemapUrlNode extends BaseObject
             'license' => $license,
         ];
         $this->images[] = $image;
-
+    
         return $this;
     }
 
