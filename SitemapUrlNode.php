@@ -17,7 +17,7 @@ class SitemapUrlNode extends BaseObject
     public $lastmod;
     public $changefreq;
     public $priority;
-    public $images = [];;
+    public $images = [];
     public $videos = [];
     public $alternateLinks = [];
 
