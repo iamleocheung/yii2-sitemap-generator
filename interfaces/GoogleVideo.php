@@ -38,16 +38,6 @@ interface GoogleVideo
     public function getSitemapVideoPlayerLoc($video, $lang = null);
     
     /**
-     * [OPTIONAL] The title of the video.
-     *
-     * @param mixed $video      Video element from [[getSitemapMaterialVideos]]
-     * @param string|null $lang Required language of item content
-     *
-     * @return string
-     */
-    public function getSitemapVideoTitle($video, $lang = null);
-
-    /**
      * [OPTIONAL] The thumbnail location of the video.
      *
      * @example <video:geo_location>Limerick, Ireland</video:geo_location>.
@@ -58,6 +48,16 @@ interface GoogleVideo
      * @return string
      */
     public function getSitemapVideoThumbnailLoc($video, $lang = null);
+    
+    /**
+     * [OPTIONAL] The title of the video.
+     *
+     * @param mixed $video      Video element from [[getSitemapMaterialVideos]]
+     * @param string|null $lang Required language of item content
+     *
+     * @return string
+     */
+    public function getSitemapVideoTitle($video, $lang = null);
 
     /**
      * [OPTIONAL] The description of the video.
