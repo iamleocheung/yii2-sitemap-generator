@@ -83,13 +83,13 @@ class SitemapUrlNode extends BaseObject
             $url[] = "\t\t<video:player_loc>" . static::prepareUrl($video['player_loc']) . '</video:player_loc>';
         
             if ($image['thumbnail_loc'] !== null) {
-                $url[] = "\t\t<video:thumbnail_loc>" . $image['thumbnail_loc'] . '</video:thumbnail_loc>';
+                $url[] = "\t\t<video:thumbnail_loc>" . $video['thumbnail_loc'] . '</video:thumbnail_loc>';
             }
             if ($image['title'] !== null) {
-                $url[] = "\t\t<video:title>" . $image['title'] . '</video:title>';
+                $url[] = "\t\t<video:title>" . $video['title'] . '</video:title>';
             }
             if ($image['description'] !== null) {
-                $url[] = "\t\t<video:description>" . $image['description'] . '</video:description>';
+                $url[] = "\t\t<video:description>" . $video['description'] . '</video:description>';
             }
         
             $url[] = "\t</video:video>";
