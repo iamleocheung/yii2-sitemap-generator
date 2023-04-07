@@ -62,16 +62,16 @@ class SitemapUrlNode extends BaseObject
             $url[] = "\t\t<image:loc>" . static::prepareUrl($image['loc']) . '</image:loc>';
 
             if ($image['caption'] !== null) {
-                $url[] = "\t\t<image:caption>" . $image['caption'] . '</image:caption>';
+                $url[] = "\t\t<image:caption>" . htmlspecialchars($image['caption'], ENT_XML1, 'UTF-8') . '</image:caption>';
             }
             if ($image['geoLocation'] !== null) {
-                $url[] = "\t\t<image:geo_location>" . $image['geoLocation'] . '</image:geo_location>';
+                $url[] = "\t\t<image:geo_location>" . htmlspecialchars($image['geoLocation'], ENT_XML1, 'UTF-8') . '</image:geo_location>';
             }
             if ($image['title'] !== null) {
-                $url[] = "\t\t<image:title>" . $image['title'] . '</image:title>';
+                $url[] = "\t\t<image:title>" . htmlspecialchars($image['title'], ENT_XML1, 'UTF-8') . '</image:title>';
             }
             if ($image['license'] !== null) {
-                $url[] = "\t\t<image:license>" . $image['license'] . '</image:license>';
+                $url[] = "\t\t<image:license>" . htmlspecialchars($image['license'], ENT_XML1, 'UTF-8') . '</image:license>';
             }
 
             $url[] = "\t</image:image>";
@@ -83,13 +83,13 @@ class SitemapUrlNode extends BaseObject
             $url[] = "\t\t<video:player_loc>" . static::prepareUrl($video['player_loc']) . '</video:player_loc>';
         
             if ($video['thumbnail_loc'] !== null) {
-                $url[] = "\t\t<video:thumbnail_loc>" . $video['thumbnail_loc'] . '</video:thumbnail_loc>';
+                $url[] = "\t\t<video:thumbnail_loc>" . htmlspecialchars($video['thumbnail_loc'], ENT_XML1, 'UTF-8') . '</video:thumbnail_loc>';
             }
             if ($video['title'] !== null) {
-                $url[] = "\t\t<video:title>" . $video['title'] . '</video:title>';
+                $url[] = "\t\t<video:title>" . htmlspecialchars($video['title'], ENT_XML1, 'UTF-8') . '</video:title>';
             }
             if ($video['description'] !== null) {
-                $url[] = "\t\t<video:description>" . $video['description'] . '</video:description>';
+                $url[] = "\t\t<video:description>" . htmlspecialchars($video['description'], ENT_XML1, 'UTF-8') . '</video:description>';
             }
         
             $url[] = "\t</video:video>";
