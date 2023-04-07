@@ -1,9 +1,9 @@
 <?php
 /**
- * @copyright Copyright (c) 2018 Ivan Orlov
- * @license   https://github.com/demisang/yii2-sitemap-generator/blob/master/LICENSE
- * @link      https://github.com/demisang/yii2-sitemap-generator#readme
- * @author    Ivan Orlov <gnasimed@gmail.com>
+ * @copyright Copyright (c) 2023 Leo Cheung
+ * @license   https://github.com/iamleocheung/yii2-sitemap-generator/blob/master/LICENSE
+ * @link      https://github.com/iamleocheung/yii2-sitemap-generator#readme
+ * @author    Leo Cheung <hello@leocheu.ng>
  */
 
 namespace demi\sitemap;
@@ -17,6 +17,7 @@ use yii\helpers\Console;
 use demi\sitemap\interfaces\Basic;
 use demi\sitemap\interfaces\GoogleAlternateLang;
 use demi\sitemap\interfaces\GoogleImage;
+use demi\sitemap\interfaces\GoogleVideo;
 
 /**
  * Class SitemapDataHandler
@@ -153,7 +154,7 @@ class SitemapDataHandler extends BaseObject
         if (is_array($items)) {
             // Foreach static model content
             foreach ($items as $item) {
-                /* @var $item Basic|GoogleImage|GoogleAlternateLang|ActiveRecord */
+                /* @var $item Basic|GoogleImage|GoogleAlternateLang|GoogleVideo|ActiveRecord */
                 $this->handleItem($item, $lang);
             }
         } elseif (is_callable($items)) {
@@ -167,7 +168,7 @@ class SitemapDataHandler extends BaseObject
             // Foreach batch models
             $batchSize = static::getModelBatchSize($model);
             foreach ($query->each($batchSize) as $item) {
-                /* @var $item Basic|GoogleImage|GoogleAlternateLang|ActiveRecord */
+                /* @var $item Basic|GoogleImage|GoogleAlternateLang|GoogleVideo|ActiveRecord */
                 $this->handleItem($item, $lang);
             }
         }
@@ -176,7 +177,7 @@ class SitemapDataHandler extends BaseObject
     /**
      * Handle sitemap item
      *
-     * @param array|Basic|GoogleImage|GoogleAlternateLang|ActiveRecord $item
+     * @param array|Basic|GoogleImage|GoogleAlternateLang|GoogleVideo|ActiveRecord $item
      * @param string $lang
      *
      * @return bool
@@ -219,6 +220,20 @@ class SitemapDataHandler extends BaseObject
                     $item->getSitemapImageCaption($image, $lang),
                     $item->getSitemapImageTitle($image, $lang),
                     $item->getSitemapImageLicense($image, $lang)
+                );
+            }
+        }
+        
+        // Google video attribute
+        if ($item instanceof GoogleVideo) {
+            $videos = $item->getSitemapMaterialVideos($item, $lang);
+        
+            foreach ($videos as $video) {
+                $url->addVideo(
+                    $item->getSitemapVideoPlayerLoc($video, $lang),
+                    $item->getSitemapVideoThumbnailLoc($video, $lang),
+                    $item->getSitemapVideoTitle($video, $lang),
+                    $item->getSitemapVideoDescription($video, $lang)
                 );
             }
         }
@@ -278,6 +293,10 @@ class SitemapDataHandler extends BaseObject
 
         if ($model instanceof GoogleImage) {
             $this->_schemas['image'] = 'xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"';
+        }
+        
+        if ($model instanceof GoogleVideo) {
+            $this->_schemas['video'] = 'xmlns:video="http://www.google.com/schemas/sitemap-video/1.1"';
         }
 
         if ($model instanceof GoogleAlternateLang) {
